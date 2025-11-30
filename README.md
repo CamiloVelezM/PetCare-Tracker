@@ -138,6 +138,16 @@ Nota: El backend debe estar ejecutándose antes de abrir el frontend.
 
 ⸻
 
+📦 IMPORTAR BASE DE DATOS
+
+En MySQL Workbench o terminal:
+
+1. Abrir MySQL
+2. Ejecutar:
+   SOURCE PetCareTracker.sql;
+
+La base de datos quedará creada automáticamente con tablas y datos de prueba.
+
 DISEÑO RESPONSIVO
 
 El proyecto se adapta automáticamente a:
