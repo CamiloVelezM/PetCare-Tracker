@@ -1,0 +1,545 @@
+/* ============================================================
+   🌈 1. ESTILOS GENERALES Y FONDO DE LA PÁGINA
+   ============================================================ */
+
+/* Esto hace que el padding/borde se calcule de forma consistente */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Estilo general del body del documento */
+body {
+  margin: 0;
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+
+  /* Fondo con degradados suaves para dar un efecto moderno */
+  background: radial-gradient(circle at top left, #f3e7ff 0%, transparent 40%),
+    radial-gradient(circle at bottom right, #e0f7ff 0%, transparent 45%),
+    linear-gradient(135deg, #f9fafb, #eef2ff);
+  color: #111827;
+}
+
+/* ============================================================
+   🟦 2. CONTENEDOR PRINCIPAL (.app-container)
+   ============================================================ */
+
+/*
+  Este es el “panel” principal donde vive toda la app.
+  Está centrado, con bordes redondeados y sombra.
+*/
+.app-container {
+  max-width: 1300px;
+  width: min(1300px, 96vw);   /* Máx. 1300px, si la pantalla es pequeña usa 96% */
+  margin: 32px auto 48px;     /* Centrado horizontal y margen arriba/abajo */
+  padding: 40px 48px 56px;
+  min-height: 75vh;           /* Ocupa buena parte de la altura */
+
+  background: #ffffffee;      /* Blanco ligeramente translúcido */
+  backdrop-filter: blur(14px);
+  border-radius: 32px;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.18);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Halo de colores difuminados que gira lentamente detrás del panel */
+.app-container::before {
+  content: "";
+  position: absolute;
+  inset: -40px;
+  z-index: -2;
+  background: conic-gradient(
+    from 0deg,
+    #a855f7,
+    #6366f1,
+    #22c55e,
+    #facc15,
+    #fb7185,
+    #a855f7
+  );
+  opacity: 0.25;
+  filter: blur(55px);
+  animation: haloSpin 22s linear infinite;
+}
+
+/* Capa blanca para que el halo no sea tan intenso */
+.app-container::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(
+    circle at top left,
+    #ffffffdd,
+    #ffffffee 35%,
+    #f9fafbff 80%
+  );
+}
+
+/* Animación de rotación del halo */
+@keyframes haloSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ============================================================
+   🐶 3. CABECERA PRINCIPAL (TÍTULO DEL PROYECTO)
+   ============================================================ */
+
+.titulo-app {
+  margin: 0;
+  font-size: 3.4rem;   /* Título grande */
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: #111827;
+}
+
+/* Emoji perro antes del título */
+.titulo-app::before {
+  content: "🐶";
+  font-size: 3rem;
+}
+
+/* Emoji gato después del título */
+.titulo-app::after {
+  content: "🐱";
+  font-size: 2.8rem;
+}
+
+/* Subtítulo bajo el título principal */
+.subtitulo {
+  margin: 6px 0 24px;
+  color: #6b7280;
+  font-size: 1.15rem;
+}
+
+/* Línea de color que decora el subtítulo */
+.subtitulo::after {
+  content: "";
+  display: block;
+  width: 180px;
+  height: 5px;
+  border-radius: 999px;
+  margin-top: 12px;
+  background: linear-gradient(90deg, #7c3aed, #6366f1, #22c55e);
+}
+
+/* ============================================================
+   🦴 4. LAYOUT DE LA PANTALLA PRINCIPAL (HERO)
+   ============================================================ */
+
+/*
+  hero-layout divide la parte superior en dos columnas:
+  - Izquierda: texto + tarjetas de menú
+  - Derecha: imagen con las mascotas
+*/
+.hero-layout {
+  margin-top: 32px;
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1.4fr);
+  gap: 40px;
+  align-items: stretch;     /* Ambas columnas con altura similar */
+}
+
+/* Título grande de la pantalla principal */
+.hero-titulo {
+  margin: 0 0 10px;
+  font-size: 3rem;
+  font-weight: 800;
+  color: #111827;
+}
+
+/* Texto descriptivo bajo el título del hero */
+.hero-subtitulo {
+  margin: 0 0 26px;
+  color: #4b5563;
+  font-size: 1.2rem;
+}
+
+/* ============================================================
+   🟩 5. TARJETAS DEL MENÚ PRINCIPAL (HOME)
+   ============================================================ */
+
+/* Contenedor grid de las 4 tarjetas "Registro, Historial, etc." */
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 22px;
+}
+
+/*
+  Cada tarjeta del menú es un botón grande con icono + texto
+*/
+.menu-card-btn {
+  text-align: left;
+  padding: 22px 22px 18px;
+  border-radius: 22px;
+  border: 2px solid rgba(0, 0, 0, 0.15);
+  background: #ffffffbb;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.07);
+
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;       /* Ícono a la izquierda, texto a la derecha */
+  align-items: flex-start;
+  gap: 14px;
+
+  transition: transform 0.14s ease, box-shadow 0.14s ease, background 0.14s ease;
+}
+
+.menu-card-btn:hover {
+  background: #eef2ff;
+  transform: translateY(-4px);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.12);
+}
+
+/* Emoji grande de cada tarjeta */
+.menu-emoji {
+  font-size: 2.4rem;
+  flex-shrink: 0;   /* No se achica si el texto es largo */
+  margin-top: 6px;
+}
+
+/* Contenedor del texto (título + descripción) de la tarjeta */
+.menu-texto {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Título en negrita dentro de la tarjeta */
+.menu-titulo {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 6px;
+}
+
+/* Texto descriptivo debajo del título */
+.menu-desc {
+  margin: 0;
+  font-size: 1rem;
+  color: #6b7280;
+  line-height: 1.35;
+}
+
+/* ============================================================
+   🐕 6. COLUMNA DERECHA DEL HERO (IMAGEN / FIGURE)
+   ============================================================ */
+
+/*
+  hero-media-wrapper es la "tarjeta" de la derecha donde va la imagen.
+  La hacemos similar en estilo (bordes redondos y sombra) para que combine
+  con las tarjetas del menú.
+*/
+.hero-media-wrapper {
+  background: #ffffff;
+  border-radius: 26px;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.18);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  gap: 8px;
+}
+
+/* La imagen ocupa todo el ancho de su contenedor y tiene bordes redondeados */
+.hero-image {
+  width: 100%;
+  height: 260px;             /* Altura fija para mantener proporción */
+  object-fit: cover;         /* Recorta la imagen para llenar el espacio sin deformarse */
+  border-radius: 20px;
+  display: block;
+}
+
+/* Franja inferior con el texto sobre la imagen (figcaption estilizado) */
+.hero-media-overlay {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #6366f1, #8b5cf6);
+  color: #f9fafb;
+}
+
+/* Icono de patita dentro de la franja */
+.hero-media-icon {
+  font-size: 1.4rem;
+}
+
+/* Texto dentro de la franja */
+.hero-media-text {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+/* ============================================================
+   📌 7. TOP-BAR DE LAS VISTAS INTERNAS (REGISTRO / HISTORIAL)
+   ============================================================ */
+
+/*
+  Barra superior que tiene:
+  - título de la vista
+  - botón "Volver al inicio"
+*/
+.top-bar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 28px;
+}
+
+/* Contenedor del título y descripción de cada vista interna */
+.vista-titulo-seccion h2 {
+  margin: 0 0 4px;
+  font-size: 1.5rem;
+}
+
+.vista-titulo-seccion p {
+  margin: 0;
+  font-size: 0.98rem;
+  color: #6b7280;
+}
+
+/* Botón pequeño para volver a la pantalla principal */
+.btn-volver-home {
+  align-self: center;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: none;
+  background: #e5e7eb;
+  color: #111827;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(148, 163, 184, 0.5);
+  transition: transform 0.12s, box-shadow 0.12s, background 0.12s;
+}
+
+.btn-volver-home:hover {
+  background: #e0e7ff;
+  transform: translateY(-1px);
+}
+
+/* ============================================================
+   📑 8. TARJETAS INTERNAS (FORMULARIOS, TABLAS, ETC.)
+   ============================================================ */
+
+/* Cada bloque de contenido (formulario, tabla, etc.) va dentro de una card */
+.card {
+  background: #ffffff;
+  border-radius: 22px;
+  padding: 24px;
+  margin-top: 24px;
+  box-shadow: 0 14px 35px rgba(15, 23, 42, 0.08);
+}
+
+/* Separación entre cards consecutivas */
+.card + .card {
+  margin-top: 24px;
+}
+
+/* Título de cada bloque (card) */
+.bloque-titulo {
+  margin: 0 0 6px;
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+/* Descripción bajo el título del bloque */
+.bloque-descripcion {
+  margin: 0 0 18px;
+  font-size: 1rem;
+  color: #6b7280;
+}
+
+/* ============================================================
+   ✏ 9. FORMULARIOS (INPUTS, SELECT, BOTÓN GUARDAR)
+   ============================================================ */
+
+/*
+  Los formularios se distribuyen en columnas adaptables
+  según el tamaño de la pantalla.
+*/
+form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 16px 22px;
+  margin-bottom: 10px;
+}
+
+/* Etiquetas de los campos */
+label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+  display: block;
+}
+
+/* Campos de texto, select y textarea comparten estilo */
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid #d1d5db;
+  background: #f9fafb;
+  font-size: 0.95rem;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+
+/* Efecto al enfocar un campo (focus) */
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.35);
+  background: #ffffff;
+}
+
+/* Botón principal de los formularios (guardar) */
+button[type="submit"],
+.btn-primary {
+  grid-column: 1 / -1;      /* Ocupa el ancho completo del formulario */
+  margin-top: 6px;
+  padding: 12px 22px;
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(90deg, #8b5cf6, #6366f1);
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  box-shadow: 0 16px 28px rgba(79, 70, 229, 0.4);
+  transition: transform 0.15s, box-shadow 0.15s, filter 0.15s;
+}
+
+button[type="submit"]:hover,
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 36px rgba(79, 70, 229, 0.5);
+  filter: brightness(1.03);
+}
+
+/* ============================================================
+   🧾 10. TABLAS DE LISTADO (USUARIOS / MASCOTAS)
+   ============================================================ */
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+
+.table thead {
+  background: #eef2ff;
+}
+
+.table th,
+.table td {
+  padding: 12px 10px;
+  text-align: left;
+}
+
+.table th {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #6b7280;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+/* Filas alternadas para mejor lectura */
+.table tbody tr:nth-child(even) {
+  background: #f9fafb;
+}
+
+/* Efecto hover en filas */
+.table tbody tr:hover {
+  background: #eef2ff;
+}
+
+/* ============================================================
+   🔘 11. BOTONES DE ACCIÓN (EDITAR / ELIMINAR / DETALLES)
+   ============================================================ */
+
+.btn-secondary,
+.btn-danger {
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.12s, box-shadow 0.12s, filter 0.12s;
+}
+
+/* Botón gris (Editar, Detalles) */
+.btn-secondary {
+  background: #e5e7eb;
+  color: #111827;
+}
+
+.btn-secondary:hover {
+  background: #e0e7ff;
+  box-shadow: 0 4px 10px rgba(148, 163, 184, 0.6);
+  transform: translateY(-1px);
+}
+
+/* Botón rojo (Eliminar) */
+.btn-danger {
+  background: #f97373;
+  color: white;
+  box-shadow: 0 4px 10px rgba(248, 113, 113, 0.7);
+}
+
+.btn-danger:hover {
+  filter: brightness(1.02);
+  transform: translateY(-1px);
+}
+
+/* ============================================================
+   📱 12. RESPONSIVE / ADAPTACIÓN A CELULAR
+   ============================================================ */
+
+@media (max-width: 768px) {
+  /* El hero pasa de 2 columnas a 1 sola (stack) */
+  .hero-layout {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  /* La parte de la imagen se muestra primero en móvil */
+  .hero-media-wrapper {
+    order: -1;
+  }
+
+  /* Título principal un poco más pequeño en pantallas chicas */
+  .titulo-app {
+    font-size: 2.5rem;
+  }
+
+  .app-container {
+    margin: 18px 12px 30px;
+    padding: 24px 18px 32px;
+    border-radius: 24px;
+  }
+
+  .top-bar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .btn-volver-home {
+    align-self: flex-start;
+  }
+}
